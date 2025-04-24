@@ -1,0 +1,521 @@
+{
+	"info": {
+		"_postman_id": "b5e3b0e0-0b0a-4b0b-8b0b-0b0b0b0b0b0b",
+		"name": "Job Application System API",
+		"description": "API endpoints for the Job Application System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"description": "Authentication endpoints",
+			"item": [
+				{
+					"name": "Register Company",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"companyToken\", jsonData.token);",
+									"    pm.environment.set(\"companyEmail\", jsonData.email);",
+									"    pm.environment.set(\"companyId\", jsonData.userId);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/register/company",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "register", "company"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Example Company\",\n    \"email\": \"company@example.com\",\n    \"password\": \"StrongPassword123!\",\n    \"description\": \"Company description\",\n    \"industry\": \"Technology\",\n    \"location\": \"Remote\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Register Candidate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"candidateToken\", jsonData.token);",
+									"    pm.environment.set(\"candidateEmail\", jsonData.email);",
+									"    pm.environment.set(\"candidateId\", jsonData.userId);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/register/candidate",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "register", "candidate"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"email\": \"candidate@example.com\",\n    \"password\": \"StrongPassword123!\",\n    \"phone\": \"+1234567890\",\n    \"resumeUrl\": \"https://example.com/resumes/johndoe.pdf\",\n    \"skills\": [\"C#\", \".NET\", \"Azure\"]\n}"
+						},
+						"description": "Register a new candidate and get authentication token"
+					}
+				},
+				{
+					"name": "Login as Company",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"companyToken\", jsonData.token);",
+									"    pm.environment.set(\"companyEmail\", jsonData.email);",
+									"    pm.environment.set(\"companyId\", jsonData.userId);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "login"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"company@example.com\",\n    \"password\": \"StrongPassword123!\"\n}"
+						},
+						"description": "Login as a company to get the token for job posting operations"
+					}
+				},
+				{
+					"name": "Login as Candidate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"candidateToken\", jsonData.token);",
+									"    pm.environment.set(\"candidateEmail\", jsonData.email);",
+									"    pm.environment.set(\"candidateId\", jsonData.userId);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "auth", "login"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"candidate@example.com\",\n    \"password\": \"StrongPassword123!\"\n}"
+						},
+						"description": "Login as a candidate to get the token for application operations"
+					}
+				}
+			]
+		},
+		{
+			"name": "Jobs",
+			"description": "Job posting endpoints",
+			"item": [
+				{
+					"name": "Search Jobs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/jobs?keyword=developer&company=tech&fromDate=2024-01-01&toDate=2024-12-31",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "jobs"],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "developer"
+								},
+								{
+									"key": "company",
+									"value": "tech"
+								},
+								{
+									"key": "fromDate",
+									"value": "2024-01-01"
+								},
+								{
+									"key": "toDate",
+									"value": "2024-12-31"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Job by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/jobs/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "jobs", "1"]
+						}
+					}
+				},
+				{
+					"name": "Create Job",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{companyToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/jobs",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "jobs"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Software Developer\",\n    \"description\": \"We are looking for a skilled software developer...\",\n    \"location\": \"Remote\",\n    \"jobType\": \"Full-time\",\n    \"salaryRangeStart\": 80000,\n    \"salaryRangeEnd\": 120000,\n    \"requirements\": [\"C#\", \".NET Core\", \"Azure\"],\n    \"responsibilities\": [\"Develop web applications\", \"Write clean code\", \"Collaborate with team\"],\n    \"expiresAt\": \"2024-12-31\"\n}"
+						},
+						"description": "Create a new job posting (requires company authentication)"
+					}
+				},
+				{
+					"name": "Update Job",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{companyToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/jobs/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "jobs", "1"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Senior Software Developer\",\n    \"description\": \"Updated job description\",\n    \"location\": \"Hybrid\",\n    \"jobType\": \"Full-time\",\n    \"salaryRangeStart\": 100000,\n    \"salaryRangeEnd\": 150000,\n    \"expiresAt\": \"2024-12-31\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Delete Job",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{companyToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/jobs/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "jobs", "1"]
+						}
+					}
+				},
+				{
+					"name": "Get Job Applications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{companyToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/jobs/1/applications",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "jobs", "1", "applications"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Applications",
+			"description": "Job application endpoints",
+			"item": [
+				{
+					"name": "Submit Application",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{candidateToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/applications",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "applications"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"jobPostId\": 1,\n    \"coverLetter\": \"I am excited to apply for this position...\",\n    \"additionalNotes\": \"Available to start immediately\"\n}"
+						},
+						"description": "Submit a job application (requires candidate authentication)"
+					}
+				},
+				{
+					"name": "Get Application",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{candidateToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/applications/{{applicationId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "applications", "{{applicationId}}"]
+						},
+						"description": "Get application details (requires authentication)"
+					}
+				},
+				{
+					"name": "Update Application Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{companyToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/applications/1/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "applications", "1", "status"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"UnderReview\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Withdraw Application",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{candidateToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/applications/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "applications", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Companies",
+			"description": "Company management endpoints",
+			"item": [
+				{
+					"name": "Get Company Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/companies/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "companies", "1"]
+						}
+					}
+				},
+				{
+					"name": "Update Company Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{companyToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/companies/1",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "companies", "1"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Updated Company Name\",\n    \"description\": \"Updated description\",\n    \"location\": \"Updated location\",\n    \"phone\": \"+1234567890\",\n    \"website\": \"https://updated-example.com\"\n}"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Candidates",
+			"description": "Candidate management endpoints",
+			"item": [
+				{
+					"name": "Get Candidate Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{candidateToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/candidates/{{candidateId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "candidates", "{{candidateId}}"]
+						},
+						"description": "Get candidate profile (requires candidate authentication)"
+					}
+				},
+				{
+					"name": "Get Candidate Applications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{candidateToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/candidates/{{candidateId}}/applications",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "candidates", "{{candidateId}}", "applications"]
+						},
+						"description": "Get all applications for a candidate (requires candidate authentication)"
+					}
+				},
+				{
+					"name": "Update Candidate Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{candidateToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/candidates/{{candidateId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "candidates", "{{candidateId}}"]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"phone\": \"+1234567890\",\n    \"skills\": [\"C#\", \".NET\", \"Azure\", \"SQL\"],\n    \"resumeUrl\": \"https://example.com/resumes/johndoe_updated.pdf\"\n}"
+						},
+						"description": "Update candidate profile (requires candidate authentication)"
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5172",
+			"type": "string"
+		},
+		{
+			"key": "domainUrl",
+			"value": "https://api.jobapplicationsystem.com",
+			"type": "string",
+			"description": "Production API domain URL"
+		}
+	]
+} 
